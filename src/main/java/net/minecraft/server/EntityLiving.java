@@ -23,6 +23,8 @@ import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.vehicle.VehicleExitEvent;
 // CraftBukkit end
 
+import org.bukkit.craftbukkit.SpigotTimings; // Spigot
+
 public abstract class EntityLiving extends Entity {
 
     private static final UUID a = UUID.fromString("662A6B8D-DA3E-4C1C-8813-96EA6097278D");
@@ -1434,6 +1436,7 @@ public abstract class EntityLiving extends Entity {
     }
 
     public void t_() {
+        SpigotTimings.timerEntityBaseTick.startTiming(); // Spigot
         super.t_();
         if (!this.world.isClientSide) {
             int i = this.bv();
@@ -1472,7 +1475,9 @@ public abstract class EntityLiving extends Entity {
             }
         }
 
+        SpigotTimings.timerEntityBaseTick.stopTiming(); // Spigot
         this.m();
+        SpigotTimings.timerEntityTickRest.startTiming(); // Spigot
         double d0 = this.locX - this.lastX;
         double d1 = this.locZ - this.lastZ;
         float f = (float) (d0 * d0 + d1 * d1);
@@ -1537,6 +1542,7 @@ public abstract class EntityLiving extends Entity {
 
         this.world.methodProfiler.b();
         this.aT += f2;
+        SpigotTimings.timerEntityTickRest.stopTiming(); // Spigot
     }
 
     protected float h(float f, float f1) {
@@ -1601,6 +1607,7 @@ public abstract class EntityLiving extends Entity {
         }
 
         this.world.methodProfiler.a("ai");
+        SpigotTimings.timerEntityAI.startTiming(); // Spigot
         if (this.bD()) {
             this.aY = false;
             this.aZ = 0.0F;
@@ -1611,6 +1618,7 @@ public abstract class EntityLiving extends Entity {
             this.doTick();
             this.world.methodProfiler.b();
         }
+        SpigotTimings.timerEntityAI.stopTiming(); // Spigot
 
         this.world.methodProfiler.b();
         this.world.methodProfiler.a("jump");
@@ -1632,11 +1640,15 @@ public abstract class EntityLiving extends Entity {
         this.aZ *= 0.98F;
         this.ba *= 0.98F;
         this.bb *= 0.9F;
+        SpigotTimings.timerEntityAIMove.startTiming(); // Spigot
         this.g(this.aZ, this.ba);
+        SpigotTimings.timerEntityAIMove.stopTiming(); // Spigot
         this.world.methodProfiler.b();
         this.world.methodProfiler.a("push");
         if (!this.world.isClientSide) {
+            SpigotTimings.timerEntityAICollision.startTiming(); // Spigot
             this.bL();
+            SpigotTimings.timerEntityAICollision.stopTiming(); // Spigot
         }
 
         this.world.methodProfiler.b();
