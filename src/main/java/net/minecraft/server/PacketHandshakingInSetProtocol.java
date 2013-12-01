@@ -13,7 +13,7 @@ public class PacketHandshakingInSetProtocol implements Packet<PacketHandshakingI
 
     public void a(PacketDataSerializer packetdataserializer) throws IOException {
         this.a = packetdataserializer.e();
-        this.b = packetdataserializer.c(255);
+        this.b = packetdataserializer.c(Short.MAX_VALUE); // Spigot
         this.c = packetdataserializer.readUnsignedShort();
         this.d = EnumProtocol.a(packetdataserializer.e());
     }
