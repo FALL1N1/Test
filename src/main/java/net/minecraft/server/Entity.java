@@ -1052,6 +1052,7 @@ public abstract class Entity implements ICommandListener {
 
     public void d(EntityHuman entityhuman) {}
 
+    int numCollisions = 0; // Spigot
     public void collide(Entity entity) {
         if (entity.passenger != this && entity.vehicle != this) {
             if (!entity.noclip && !this.noclip) {
